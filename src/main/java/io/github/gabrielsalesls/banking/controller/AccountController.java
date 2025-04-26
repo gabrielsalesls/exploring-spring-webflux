@@ -4,10 +4,8 @@ import io.github.gabrielsalesls.banking.dto.account.AccountRequestDto;
 import io.github.gabrielsalesls.banking.dto.account.AccountResponseDto;
 import io.github.gabrielsalesls.banking.service.AccountService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -21,8 +19,12 @@ public class AccountController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<AccountResponseDto>> createAccount(@RequestBody AccountRequestDto accountRequest) {
-        return accountService.createAccount(accountRequest)
-                .map(ResponseEntity::ok);
+    public ResponseEntity<Mono<AccountResponseDto>> createAccount(@RequestBody AccountRequestDto accountRequest) {
+        return ResponseEntity.ok(accountService.createAccount(accountRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<Flux<AccountResponseDto>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.getAllAccounts());
     }
 }

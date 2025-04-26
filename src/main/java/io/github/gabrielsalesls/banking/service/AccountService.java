@@ -5,6 +5,7 @@ import io.github.gabrielsalesls.banking.dto.account.AccountResponseDto;
 import io.github.gabrielsalesls.banking.entity.Account;
 import io.github.gabrielsalesls.banking.repository.AccountRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -25,6 +26,14 @@ public class AccountService {
         );
 
         return accountRepository.save(account)
+                .map(savedAccount -> new AccountResponseDto(
+                        savedAccount.id(),
+                        savedAccount.userName(),
+                        savedAccount.balance()));
+    }
+
+    public Flux<AccountResponseDto> getAllAccounts() {
+        return accountRepository.findAll()
                 .map(savedAccount -> new AccountResponseDto(
                         savedAccount.id(),
                         savedAccount.userName(),
