@@ -18,4 +18,12 @@ public record Account(
         public static Account create(String userName, BigDecimal balance) {
                 return new Account(null, userName, balance);
         }
+
+        public Account debit(BigDecimal value) {
+                return new Account(id, userName, balance.subtract(value));
+        }
+
+        public Account credit(BigDecimal value) {
+                return new Account(id, userName, balance.add(value));
+        }
 }

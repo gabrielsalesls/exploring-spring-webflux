@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS Transfer (
     toAccountId BIGINT NOT NULL,
     amount NUMERIC(19, 2) NOT NULL,
     status VARCHAR(255) NOT NULL,
-    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL,
     CONSTRAINT fk_from_account FOREIGN KEY (fromAccountId) REFERENCES Account(id),
     CONSTRAINT fk_to_account FOREIGN KEY (toAccountId) REFERENCES Account(id)
 );
